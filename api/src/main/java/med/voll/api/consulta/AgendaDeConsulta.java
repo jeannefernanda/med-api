@@ -1,9 +1,10 @@
 package med.voll.api.consulta;
 
-import jakarta.validation.ValidationException;
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.Consulta;
 import med.voll.api.domain.consulta.ConsultaRepository;
+import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
+import med.voll.api.domain.consulta.DadosCancelamentoConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
@@ -34,7 +35,7 @@ public class AgendaDeConsulta {
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
-        var consulta = new Consulta(null, medico, paciente, dados.data());
+        var consulta = new Consulta(null, medico, paciente, dados.data(), null);
         consultaRepository.save(consulta);
     }
 
@@ -48,5 +49,14 @@ public class AgendaDeConsulta {
         }
 
         return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
+    }
+
+    public void cancelar(DadosCancelamentoConsulta dados) {
+        if(!consultaRepository.existsById(dados.idCOnsulta())){
+            throw new ValidacaoException("Id da consulta informada não existe!");
+        }
+
+        var consulta = consultaRepository.getReferenceById(dados.idCOnsulta());
+        consulta.cancelar(dados.motivo());
     }
 }

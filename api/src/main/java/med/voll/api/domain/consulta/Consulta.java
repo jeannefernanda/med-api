@@ -30,6 +30,11 @@ public class Consulta {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    private LocalDateTime date;
+    private LocalDateTime data;
 
+    private MotivoCancelamento motivoCancelamento;
+
+    public void cancelar(MotivoCancelamento motivo) {
+        this.motivoCancelamento = motivo;
+    }
 }
