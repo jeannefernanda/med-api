@@ -1,4 +1,4 @@
-package med.voll.api.consulta;
+package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.Consulta;
